@@ -1,6 +1,6 @@
 from utils.adacvar.adacvar.util.cvar import SoftCVaR 
 from utils.adacvar.adacvar.util.adaptive_algorithm import Exp3Sampler
-from cvar_optimizer import CVaROptimizerInterface
+from .cvar_optimizer import CVaROptimizerInterface
 import numpy as np
 import torch
 from torch.utils.data import DataLoader

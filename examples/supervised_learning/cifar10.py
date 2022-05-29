@@ -3,17 +3,14 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
-
 import torchvision
 import torchvision.transforms as transforms
-
 import os
 import random
-
 import numpy as np
 
 from riskyzoo.supervised_learning.risk_functionals import human_aligned_risk, entropic_risk, trimmed_risk, cvar, mean_variance
-
+from training_utils.progress_bar import *
 from models import VGG 
 
 batch_size_train = 5 
