@@ -1,0 +1,82 @@
+from utils.adacvar.adacvar.util.cvar import SoftCVaR 
+from utils.adacvar.adacvar.util.adaptive_algorithm import Exp3Sampler
+from cvar_optimizer import CVaROptimizerInterface
+import numpy as np
+import torch
+from torch.utils.data import DataLoader
+
+"""Code sourced from Adaptive Sampling for Stochastic Risk-Averse Learning (Curi et al. 2020): https://github.com/sebascuri/adacvar"""
+class SoftCVaR():
+    """
+        Parameters:
+            cvar - CVaR alpha
+            soft_lr - learning rate for SoftCVaR
+            soft_temp - temperature for SoftCVaR
+            batch_size - batch_size used for training
+            dataset - PyTorch dataset object containing training data.
+            optimizer - PyTorch optimizer for model parameters (e.g. SGD, Adam)
+            eta - eta for sampler
+            gamma - gamma for sampler
+            beta - beta for sampler
+            eps - eps for sampler
+    """
+    def __init__(self, alpha, soft_lr, soft_temp, batch_size, dataset, optimizer, eta=0, gamma=0, beta=0, eps=0):
+        super().__init__()
+        self.dataset = dataset
+        self.dataset_size = len(dataset)
+        self.exp3 = Exp3Sampler(
+            batch_size=batch_size,
+            num_actions=self.dataset_size,
+            size=int(np.ceil(alpha * self.dataset_size)),
+            eta=eta,
+            gamma=gamma,
+            beta=beta,
+            eps=eps,
+            iid_batch=False,
+        )
+        self.loader = DataLoader(dataset, batch_sampler=self.exp3)
+        self.adaptive_algorithm = self.loader.batch_sampler
+        self.optimizer = optimizer
+        self.cvar = SoftCVaR(alpha=alpha, learning_rate=soft_lr, temperature=soft_temp)
+
+    """Retursn training data loader for soft CVaR algorithm. You must use this data loader."""
+    def get_loader(self):
+        return self.loader
+
+    def zero_grad(self):
+        self.optimizer.zero_grad()
+        self.cvar.zero_grad()
+
+    """
+        Parameters:
+            losses - must be individual losses for each data point.
+
+        Usage example:
+        for batch_idx, (data, target, idx) in enumerate(train_loader):
+            adavar_optimzer.zero_grad()
+            criterion = torch.nn.CrossEntropyLoss(reduction='none') #NOTE: reduction is none.
+            output = model(X)
+            loss = criterion(output, ground_truth_labels)
+            adavar_optimizer.step(loss)
+
+    """ 
+    def step(self, losses, idx):
+        # batch sampler (not cyclic sampler line 93 adacvar.util.train.py)
+        weights = 1.0
+        probabilities = self.adaptive_algorithm.probabilities
+
+        # Feedback loss to sampler.
+        self.adaptive_algorithm.update(
+            1 - np.clip(losses.cpu().detach().numpy(), 0, 1), idx, probabilities
+        )
+
+        # Calculate CVaR and reduce to mean.
+        cvar_loss = (torch.tensor(weights).float().to('cpu') * self.cvar(losses)).mean()
+
+        # Compute gradietns and backpropagate.
+        cvar_loss.backward()
+        self.optimizer.step()
+        self.cvar.step()
+
+        # Renormalize sampler
+        self.adaptive_algorithm.normalize()
