@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from risk_functional import RiskFunctionalInterface
+from .risk_functional import RiskFunctionalInterface
 
 class EntropicRisk(RiskFunctionalInterface, nn.Module):
     """

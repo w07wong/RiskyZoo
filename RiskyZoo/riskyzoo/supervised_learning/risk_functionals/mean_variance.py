@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn
+from .risk_functional import RiskFunctionalInterface
 
-class MeanVariance(nn.Module):
+class MeanVariance(RiskFunctionalInterface, nn.Module):
     """
         Parameters:
             c - variance penalty

@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn
+from .risk_functional import RiskFunctionalInterface
 
-class HumanAlignedRisk(nn.Module):
+class HumanAlignedRisk(RiskFunctionalInterface, nn.Module):
     """
         Parameters:
             a - weightage function parameter a

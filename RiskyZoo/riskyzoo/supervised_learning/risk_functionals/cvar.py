@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
-from risk_functional import RiskFunctionalInterface
+from .risk_functional import RiskFunctionalInterface
 
 """Class for CVaR and inverted CVaR risk."""
 class CVaR(RiskFunctionalInterface, nn.Module):
