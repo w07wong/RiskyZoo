@@ -1,7 +1,7 @@
 # RiskyZoo: A library for risk-sensitive learning
 
 ## Installation
-1. Change working directory to riskyzoo: ```cd riskyzoo```
+1. Change working directory to RiskyZoo: ```cd RiskyZoo```
 2. Install via pip: ```pip install -e .```
 
 ## Supervised Learning Tools
