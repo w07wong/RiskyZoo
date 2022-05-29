@@ -172,12 +172,12 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer',
 
 risk_functionals = {
     'Expected Value': nn.CrossEntropyLoss(),
-    'CVaR-0.9': cvar.CVaR(a=0.9),
+    'CVaR-0.9': cvar.CVaR(alpha=0.9),
     'Entropic Risk=-0.5': entropic_risk.EntropicRisk(t=-0.5),
     'Human-Aligned Risk a=0.8 b=0.2': human_aligned_risk.HumanAlignedRisk(a=0.8, b=0.2),
-    'Inverted CVaR-0.9': cvar.CVaR(a=0.9, inverted=True),
+    'Inverted CVaR-0.9': cvar.CVaR(alpha=0.9, inverted=True),
     'Mean-Variance=-0.1': mean_variance.MeanVariance(c=-0.1),
-    'Trimmed Risk-0.05': trimmed_risk.TrimmedRisk(a=0.05),
+    'Trimmed Risk-0.05': trimmed_risk.TrimmedRisk(alpha=0.05),
 }
 
 seeds = [i for i in range(5)]
