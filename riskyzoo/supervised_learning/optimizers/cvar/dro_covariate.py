@@ -2,7 +2,7 @@ import torch
 from torch.autograd import Variable
 from cvar_optimizer import CVaROptimizerInterface
 
-"""CVaR implementation of Distributionally robust losses for latent covariate mixtures (Duchi et al. 2020)"""
+"""CVaR implementation of "Distributionally robust losses for latent covariate mixtures" (Duchi et al. 2020)"""
 class DROCovariate(CVaROptimizerInterface):
     """
         Parameters:

@@ -8,16 +8,12 @@ def plot_loss_distribution(losses, path, fname, loss_name):
     plt.figure(figsize=(10,6))
     
     weights = np.ones_like(losses) / len(losses)
-    bins = np.linspace(0, 5, 50)
-    _, bins, _ = plt.hist(x=losses, bins=bins, color='#272f4a',
+    plt.hist(x=losses, color='#272f4a',
                             alpha=1, weights=weights)
     
     plt.grid(axis='y', alpha=0.75)
     plt.xlabel(loss_name)
     plt.ylabel('Percent of Samples')
-    plt.xlim(0, 3.5)
-    plt.ylim(0, 1)
-    plt.xticks(np.arange(0, 3.6, 0.5))
 
     os.makedirs(path, exist_ok=True)
     plt.savefig(path + fname + '.png')

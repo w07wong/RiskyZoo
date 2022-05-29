@@ -2,7 +2,7 @@ import torch
 from torch.autograd import Variable
 from cvar_optimizer import CVaROptimizerInterface
 
-"""CVaR implementation of Learning models with uniform performance via distributionally robust optimization (Duchi et al. 2018)"""
+"""CVaR implementation of "Learning models with uniform performance via distributionally robust optimization" (Duchi et al. 2018)"""
 class DROJoint(CVaROptimizerInterface):
     """
         Parameters:

@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
-"""Code sourced from Adaptive Sampling for Stochastic Risk-Averse Learning (Curi et al. 2020): https://github.com/sebascuri/adacvar"""
+"""Code sourced from "Adaptive Sampling for Stochastic Risk-Averse Learning" (Curi et al. 2020): https://github.com/sebascuri/adacvar"""
 class AdaVaR(CVaROptimizerInterface):
     """
         Parameters:

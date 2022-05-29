@@ -16,8 +16,8 @@ from riskyzoo.supervised_learning.risk_functionals import human_aligned_risk, en
 
 from models import VGG 
 
-batch_size_train = 5000 
-batch_size_test = 5000 
+batch_size_train = 5 
+batch_size_test = 5 
 lr = 0.005
 
 # Training
