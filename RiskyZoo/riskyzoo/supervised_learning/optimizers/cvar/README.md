@@ -27,7 +27,7 @@ To usage these optimizers, you must pass in an optimzier you would like to use f
         pred = model(X_train)
         loss = criterion(pred, ground_truth)
 
-        cvar_optimizer(loss)
+        cvar_optimizer.step(loss)
 
 ...
 
